@@ -1,0 +1,40 @@
+services:
+  migrate:
+    build:
+      context: .
+      target: migrate
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - .env
+
+  backend:
+    build:
+      context: .
+      target: web
+    ports:
+      - ${BACKEND__RUN__PORT}:${BACKEND__RUN__PORT}
+    depends_on:
+      db:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+    env_file:
+      - .env
+
+  db:
+    image: postgres:16-alpine
+    ports:
+      - ${BACKEND__DB__PORT}:5432
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_USER=${BACKEND__DB__USER}
+      - POSTGRES_PASSWORD=${BACKEND__DB__PASSWORD}
+      - POSTGRES_DB=${BACKEND__DB__NAME}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 2s
+      timeout: 5s
+      retries: 10
