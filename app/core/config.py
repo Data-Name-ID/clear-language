@@ -21,7 +21,7 @@ class StaticConfig:
 
 
 class AppConfig(BaseModel):
-    origins: str = "http://localhost,http://localhost:8000"
+    origins: list = ["http://localhost", "http://localhost:8000"]
 
 
 class DatabaseConfig(BaseModel):

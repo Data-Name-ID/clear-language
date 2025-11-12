@@ -6,8 +6,6 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    env_file:
-      - .env
 
   backend:
     build:
@@ -20,15 +18,11 @@ services:
         condition: service_healthy
       migrate:
         condition: service_completed_successfully
-    env_file:
-      - .env
 
   db:
     image: postgres:16-alpine
     ports:
       - ${BACKEND__DB__PORT}:5432
-    env_file:
-      - .env
     environment:
       - POSTGRES_USER=${BACKEND__DB__USER}
       - POSTGRES_PASSWORD=${BACKEND__DB__PASSWORD}
