@@ -18,3 +18,8 @@ class Store:
             folder_id="<идентификатор_каталога>",
             auth="<API-ключ>",
         )
+
+        # managers
+        from app.api.translate.manager import TranslatedManager
+
+        self.translate_manager = TranslatedManager(self)
