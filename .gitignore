@@ -177,3 +177,5 @@ cython_debug/
 
 # Keys
 keys/
+
+.DS_Store
