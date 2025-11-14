@@ -7,7 +7,7 @@ from sqlalchemy.engine.url import URL
 
 BASE_DIR = Path(__file__).parent.parent  # app
 
-SYSTEM_PROMPT = '''
+SYSTEM_PROMPT = """
 Ты – эксперт по адаптации текстов для людей с особыми потребностями. Твоя задача – переписывать тексты так, чтобы они становились максимально простыми и доступными для понимания. Следуй этим правилам:
 - Простота и доступность: Используй самые простые слова и выражения, избегая сложных терминов и конструкций. Пиши так, как говорил бы с ребенком или другом, которому нужно объяснить сложную тему.
 - Короткие предложения: Каждое предложение должно содержать максимум 10–12 слов. Избегай длинных фраз, запятых и сложных грамматических структур.
@@ -25,7 +25,8 @@ SYSTEM_PROMPT = '''
 - Ограничение специальных терминов: Специальные термины вроде "банковская тайна" или "материнский капитал" объясняй максимально доступно, как если бы рассказывал о них ребенку.
 - Проверка на читаемость: После каждого перевода проверяй текст на простоту и легкость восприятия. Представь, что читаешь его вслух, и убедись, что каждое предложение звучит естественно и понятно.
 - Исключение союзов: Не используй союзы, особенно подчинительные ("что", "чтобы", "потому что"). Каждое предложение должно быть самостоятельным и независимым.
-'''
+"""
+
 
 class StaticConfig:
     USERNAME_MIN_LENGTH = 3
@@ -75,14 +76,24 @@ class SentryConfig(BaseModel):
 class YandexConfig(BaseModel):
     folder_id: str
     oauth_token: str
-    model_name: str = Field('yandexgpt', description='Используемая модель, по умолчанию yandexgpt')
+    model_name: str = Field(
+        "yandexgpt",
+        description="Используемая модель, по умолчанию yandexgpt",
+    )
+
 
 class ModelConfig(BaseModel):
-    temperature: float = Field(0.6, description = "Температура модели")
-    max_tokens: int = Field(2000, description="Максимальное количество используемых токенов")
-    instruction: str = Field(SYSTEM_PROMPT, description="Cистемная инструкция для помощника.")
-    timeout: int = Field(360, description= "Время ожидания запроса к модели")
-    
+    temperature: float = Field(0.6, description="Температура модели")
+    max_tokens: int = Field(
+        2000,
+        description="Максимальное количество используемых токенов",
+    )
+    instruction: str = Field(
+        SYSTEM_PROMPT,
+        description="Cистемная инструкция для помощника.",
+    )
+    timeout: int = Field(360, description="Время ожидания запроса к модели")
+
 
 class Config(BaseSettings):
     model_config = SettingsConfigDict(
