@@ -7,7 +7,7 @@ from app.core.store import Store
 
 
 class YandexCloudManager(BaseAccessor):
-    async def __init__(self, store: Store) -> None:
+    def __init__(self, store: Store) -> None:
         super().__init__(store)
 
         _auth = OAuthTokenAuth(self.store.config.yc.oauth_token)
